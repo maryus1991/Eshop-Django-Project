@@ -1,0 +1,28 @@
+{% extends 'Base/Base.html' %}
+
+{% block page_title %}
+	{{Product_Detail.name | title }}
+{% endblock %}
+
+{% block content_page %}
+{#	{% for Eshop_Product in Products_List %}#}
+		<h1>
+            {{ Product_Detail.name }}
+        </h1><p>
+            {{ Product_Detail.price }}
+    </p>
+        <p>
+        {{ Product_Detail.rating }}
+        </p>
+        <br>
+        <p>
+        {{ Product_Detail.description }}
+        </p>
+{#        <a href="{% url 'product_detail_page' Eshop_Product.id %}">#}
+{#            See {{ Eshop_Product.name }}#}
+{#        </a>#}
+        <br>
+        ---------
+{#	{% endfor %}#}
+	
+{% endblock %}
