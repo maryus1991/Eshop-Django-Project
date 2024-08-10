@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Eshop_Product',
     'Eshop_home',
     'django_render_partial',
+    'django_seed'
 ]
 
 MIDDLEWARE = [

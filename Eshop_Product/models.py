@@ -3,7 +3,21 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-# Create your models here.
+class ProductBrand(models.Model):
+    title = models.CharField(max_length=100, verbose_name="نام برند", db_index=True)
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='نام در url')
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_deleted = models.BooleanField(default=False, verbose_name="حذف کردن")
+    description = models.TextField(verbose_name="توضیحات برند" )
+
+    class Meta:
+        verbose_name = 'برند'
+        verbose_name_plural = 'برندها'
+
+    def __str__(self):
+        return self.title
+
+
 class ProductCategory(models.Model):
     title = models.CharField(db_index=True,max_length=100, verbose_name='عنوان')
     slug = models.SlugField(db_index=True, unique=True, blank=True, verbose_name='عنوان در url')
@@ -50,11 +64,12 @@ class Product(models.Model):
     short_description = models.TextField(db_index=True, verbose_name='توضیحات کوتاه')
     slug = models.SlugField(db_index=True, unique=True, blank=True, verbose_name='عنوان در url')
     is_active = models.BooleanField(default=True, verbose_name="فعال")
-    category = models.ManyToManyField(ProductCategory, db_index=True,  null=True, blank=True,
-                                      related_name='Products', verbose_name='کتگوری ها')
-    product_tags = models.ManyToManyField(ProductTag, blank=True, related_name='Tags', null=True
-                                          , verbose_name='تگ های محصول')
+    category = models.ManyToManyField(ProductCategory, db_index=True,
+                                      related_name='Products', verbose_name='کتگوری ها', null=True, blank=True)
+    product_tags = models.ManyToManyField(ProductTag,  related_name='Tags'
+                                          , verbose_name='تگ های محصول', null=True, blank=True)
     is_delete = models.BooleanField(default=False, verbose_name="حذف کردن")
+    brand = models.ForeignKey(ProductBrand, null=True, blank=True, verbose_name='برند', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'محصول'
@@ -67,3 +82,5 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.id})({self.price})'
+
+
