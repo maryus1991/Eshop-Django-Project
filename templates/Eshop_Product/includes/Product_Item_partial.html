@@ -3,8 +3,8 @@
                                     <div class="single-products">
                                         <div class="productinfo text-center">
                                             <img src="../static/images/shop/product.jpg" alt="" />
-                                            <h2>{{ Product.price }} تومان </h2>
-                                            <p> {{ Product.name }}</p>
+                                            <h2> {{ Product.name|truncatechars:15|title }}</h2>
+                                            <p>{{ Product.price|truncatechars:30 }} تومان </p>
                                             <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
                                         </div>
                                         <div class="product-overlay">
