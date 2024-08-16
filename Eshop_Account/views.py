@@ -1,14 +1,17 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views import View
-from utils.EmailService import SendMail
 from Eshop_Account.forms import RegisterForm, LoginForm, ForgotPassFormEmail, ResetPassForm
+from utils.EmailService import SendMail
 from .models import User
 
+def logout_user(request):
+    logout(request)
+    return redirect(reverse('login.auth.page'))
 
 class ForgotPass(View):
     def get(self, request):
@@ -23,7 +26,8 @@ class ForgotPass(View):
             email = forgot_form.cleaned_data.get('email')
             user: User = User.objects.filter(mobile__iexact=mobile, email__iexact=email).first()
             if user is not None:
-                SendMail()
+                SendMail(User.email, 'تغییر رمز عبور', {'user': User}, 'emails/forgot_pass.html')
+                return redirect(reverse('login.auth.page'))
             else:
                 forgot_form.add_error('email', 'کاربر یافت نشد')
 
@@ -38,7 +42,7 @@ class ResetPassEmail(View):
         else:
             Reset_Pass_Form = ResetPassForm()
             context = {'Reset_Pass_Form': Reset_Pass_Form,
-                       'user' : user }
+                       'user': user}
         return render(request, 'Eshop_Account/change_pass.html', context)
 
     def post(self, request, active_code):
@@ -63,7 +67,7 @@ class RegisterView(View):
     def get(self, request):
         register_form = RegisterForm()
         context = {'register_form': register_form}
-        return render(request, 'Eshop_Account/requester.html', context)
+        return render(request, 'Eshop_Account/signin.html', context)
 
     def post(self, request):
         register_form = RegisterForm(request.POST)
@@ -82,10 +86,10 @@ class RegisterView(View):
                                 is_active=False)
                 new_user.set_password(password)
                 new_user.save()
-                SendMail(new_user.email,'فعال سازی حساب کاربری', {'user': new_user}, 'emails/active.html')
+                SendMail(new_user.email, 'فعال سازی حساب کاربری', {'user': new_user}, 'emails/active.html')
                 return redirect(reverse('login.auth.page'))
         context = {'register_form': register_form}
-        return render(request, 'Eshop_Account/requester.html', context)
+        return render(request, 'Eshop_Account/signin.html', context)
 
 
 class loginView(View):

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'Eshop_home',
     'django_render_partial',
     'django_seed',
-    'Eshop_Account'
+    'Eshop_Account',
+    'Eshop_Setting',
 ]
 
 MIDDLEWARE = [
@@ -137,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '<EMAIL>'
-EMAIL_HOST_PASSWORD = '<PASSWORD>'
+EMAIL_HOST = 'smtp.mailersend.net'
+EMAIL_HOST_USER = 'MS_j1PZoN@trial-neqvygmx0xjl0p7w.mlsender.net'
+EMAIL_HOST_PASSWORD = 'ma7KYaXQrs9Af3AG'
 EMAIL_PORT = 587
