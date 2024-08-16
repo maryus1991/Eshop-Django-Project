@@ -18,9 +18,12 @@ from itertools import product
 
 from django.contrib import admin
 from django.urls import path, include
-
+from . import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', include('Eshop_Product.urls')),
     path('', include('Eshop_home.urls')),
-]
+    path('auth', include('Eshop_Account.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT )
+

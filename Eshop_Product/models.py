@@ -65,11 +65,12 @@ class Product(models.Model):
     slug = models.SlugField(db_index=True, unique=True, blank=True, verbose_name='عنوان در url')
     is_active = models.BooleanField(default=True, verbose_name="فعال")
     category = models.ManyToManyField(ProductCategory, db_index=True,
-                                      related_name='Products', verbose_name='کتگوری ها', null=True, blank=True)
+                                      related_name='Products', verbose_name='کتگوری ها', blank=True, null=True)
     product_tags = models.ManyToManyField(ProductTag,  related_name='Tags'
-                                          , verbose_name='تگ های محصول', null=True, blank=True)
+                                          , verbose_name='تگ های محصول', blank=True, null=True )
     is_delete = models.BooleanField(default=False, verbose_name="حذف کردن")
     brand = models.ForeignKey(ProductBrand, null=True, blank=True, verbose_name='برند', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='image/product/', null=True, blank=True, verbose_name='تصویر محصول')
 
     class Meta:
         verbose_name = 'محصول'

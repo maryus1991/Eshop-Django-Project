@@ -38,7 +38,7 @@
 					
 					<div class="col-sm-4" style="text-align: left;">
 						<div class="logo">
-							<a href="index.html"><img src="../static/images/home/logo.png" alt="Logo" style="text-align: center;" /></a>
+							<a href="index.html"><img src="/static/images/home/logo.png" alt="Logo" style="text-align: center;" /></a>
 						</div>
 					</div>
 					
@@ -47,7 +47,15 @@
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-user"></i> حساب کاربـری</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> لیست علاقه مندی ها</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> ورود</a></li>
+                                {% if request.user.is_authenticated %}
+                                    <li><a href="{% url 'logout.auth.page' %}"><i class="fa fa-lock"></i> خروج</a></li>
+                                    {% if request.user.is_superuser %}
+                                    	<li><a href="/admin/"><i class="fa fa-lock"></i> پنل ادمین</a></li>
+                                    {% endif %} 
+                                    {% else %}
+								        <li><a href="{% url 'login.auth.page' %}"><i class="fa fa-lock"></i> ورود</a></li>
+								        <li><a href="{% url 'register.auth.page' %}"><i class="fa fa-lock"></i> ثبت نام</a></li>
+                                {% endif %} 
 								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>
 							</ul>
 						</div>

@@ -22,7 +22,18 @@
                             {% include 'Eshop_Product/includes/Product_Item_partial.html' with Product=Product %}
                         {% endfor %}
 
-
+                        <div class="clearfix"></div>
+                        <ul class="pagination bottom-right">
+                            {% if page_obj.has_previous %}
+    							<li><a href="?page={{ page_obj.previous_page_number }}"> قبلی</a></li>
+                            {% endif %}
+                            {% for page in paginator.page_range %}
+    							<li class="{% if page_obj.number == page %}active {% endif %}"><a href="?page={{ page }}">{{ page }}</a></li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+    							<li><a href="?page={{ page_obj.next_page_number }}"> بعدی </a></li>
+                            {% endif %}
+						</ul>
 					</div><!--features_items-->
 				</div>
 
@@ -134,13 +145,7 @@
 {#						<div class="shipping text-center"><!--shipping-->#}
 {#							<img src="../static/images/home/shipping.jpg" alt="" />#}
 {#						</div><!--/shipping-->#}
-                        <div class="clearfix"></div>
-                        <ul class="pagination bottom-right">
-							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">&raquo;</a></li>
-						</ul>
+
 					</div>
 				</div>
 

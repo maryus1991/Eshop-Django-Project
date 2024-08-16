@@ -20,12 +20,7 @@ def create_address():
     """Creates an address object combining different elements from the list"""
 
     seeder = Seed.seeder()
-    seeder.add_entity(ProductCategory, 50, {
-        'title': lambda x: Seed.faker.email,
-        'slug': lambda x: Seed.faker.email,
-
-
-    })
+    seeder.add_entity(Product, 500)
     inserted_pks = seeder.execute()
 
     return inserted_pks

@@ -1,8 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import redirect, reverse
+from django.views.generic import ListView, DetailView, View
+
 from .models import Product
-from django.shortcuts import get_object_or_404
-from django.db.models import Avg
 
 
 # from django.urls import reverse
@@ -24,14 +23,16 @@ class Product_Detail(DetailView):
     model = Product
     context_object_name = 'Product_Detail'
 
-#
-# def Product_Details_By_ID(request, id):
-#     Product_Detail = get_object_or_404(Product, pk=id)
-#     return render(request, 'Eshop_Product/Product_Detail.html',
-#                   {'Product_Detail': Product_Detail})
-#
-#
-# def Product_Details_By_Slug(request, slug):
-#     Product_Detail = get_object_or_404(Product, slug=slug)
-#     return render(request, 'Eshop_Product/Product_Detail.html',
-#                   {'Product_Detail': Product_Detail})
+    def get_context_data(self, **kwargs):
+        con = super().get_context_data(**kwargs)
+        request = self.request
+        con['is_favorite'] =  str(self.object.id) in str(request.session['pid'])
+        return con
+
+
+
+class addProductToFavorite(View):
+    def get(self, request, **kwargs):
+        pid = request.GET['pid']
+        request.session['pid'] = pid
+        return redirect(reverse('product_detail_page', kwargs={'pk': pid}))
