@@ -1,0 +1,35 @@
+{% extends 'Base/Base.html' %}
+{% block title %}
+	بازیابـی کلمـه عبـور
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<section id="form"><!--form-->
+			<div class="row">
+				<div class="forget-password">
+					<div class="col-sm-10">
+						<div class="login-form"><!--Recovery form-->
+							<h2>لطفاً    رمز عبور جدید شمارا وارد فرمایید را وارد نماییـد :</h2>
+							<form action="{% url 'reset.pass.auth.page.2.3' active_code=user.email_active_code %}" method="post">
+                                {% csrf_token %}
+								{{ Reset_Pass_Form }}
+								<button type="submit" class="btn btn-default">بازیابـی کلمـه عبـور</button>
+							</form>
+                            <dev class="clearfix">
+                                <form action="">
+                                <h2>اطلاعات حساب خود را به یاد آوردید ؟! </h2>
+                                <a href="{% url 'login.auth.page' %}"><button type="submit" class="btn btn-default">ورود</button></a>
+                                    </form>
+                            </dev>
+                            <dev class="alert-danger">
+                                {{ Reset_Pass_Form.errors }}
+                            </dev>
+						</div><!--/Recovery form-->
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}
+
