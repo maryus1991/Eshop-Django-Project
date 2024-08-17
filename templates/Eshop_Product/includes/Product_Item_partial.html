@@ -1,25 +1,39 @@
+{% load thumbnail %}
+
 <div class="col-sm-4">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="../static/images/shop/product.jpg" alt="" />
-                                            <h2> {{ Product.name|truncatechars:15|title }}</h2>
-                                            <p>{{ Product.price|truncatechars:30 }} تومان </p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
-                                        </div>
-                                        <div class="product-overlay">
-                                            <div class="overlay-content">
-                                                <h2>{{ Product.price }} تومان </h2>
-                                                <p>{{ Product.name }}</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="choose">
-                                        <ul class="nav nav-pills nav-justified">
-                                            <li><a href=""><i class="fa fa-plus-square"></i>افزودن به علاقه مندی ها</a></li>
-                                            <li><a href="{% url 'product_detail_page' Product.id %}"><i class="fa fa-plus-square"></i>  مشاهده محصول</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="product-image-wrapper">
+        <div class="single-products">
+            <div class="productinfo text-center">
+                {% if Product.image.url %}
+                    {% thumbnail Product.dimage '268x250' crop="center" as img %}
+                        <img src="{{ img.url }}" alt="">
+                    {% endthumbnail %}
+                {% else %}
+                    <img src="../static/images/shop/product.jpg" alt=""/>
+{#                    todo : fix this#}
+                {% endif %}
+                    <img src="../static/images/shop/product.jpg" alt=""/>
+
+
+                <h2> {{ Product.name|truncatechars:15|title }}</h2>
+                <p>{{ Product.price|truncatechars:30 }} تومان </p>
+                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
+            </div>
+            <div class="product-overlay">
+                <div class="overlay-content">
+                    <h2>{{ Product.price }} تومان </h2>
+                    <p>{{ Product.name }}</p>
+                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد
+                        خریـد</a>
+                </div>
+            </div>
+        </div>
+        <div class="choose">
+            <ul class="nav nav-pills nav-justified">
+                <li><a href=""><i class="fa fa-plus-square"></i>افزودن به علاقه مندی ها</a></li>
+                <li><a href="{% url 'product_detail_page' Product.id %}"><i class="fa fa-plus-square"></i> مشاهده محصول</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

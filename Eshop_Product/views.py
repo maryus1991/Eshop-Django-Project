@@ -26,7 +26,7 @@ class Product_Detail(DetailView):
     def get_context_data(self, **kwargs):
         con = super().get_context_data(**kwargs)
         request = self.request
-        con['is_favorite'] =  str(self.object.id) in str(request.session['pid'])
+        con['is_favorite'] = True if int(self.object.id) == int(request.session['pid']) else False
         return con
 
 

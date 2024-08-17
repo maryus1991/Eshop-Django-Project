@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-xgx8$5%1d2mu7xr73b5ga_^sdhh@uxqkz15p7hhg#l13mle440
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,8 +41,37 @@ INSTALLED_APPS = [
     'django_seed',
     'Eshop_Account',
     'Eshop_Setting',
+    'Eshop_Blog',
+    'sorl.thumbnail',
+    'jalali_date',
+    'polls'
 ]
 
+JALALI_DATE_DEFAULTS = {
+    # if change it to true then all dates of the list_display will convert to the Jalali.
+    'LIST_DISPLAY_AUTO_CONVERT': False,
+    'Strftime': {
+        'date': '%y/%m/%d',
+        'datetime': '%H:%M:%S _ %y/%m/%d',
+    },
+    'Static': {
+        'js': [
+            # loading datepicker
+            'admin/js/django_jalali.min.js',
+            # OR
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js',
+            # 'admin/js/main.js',
+        ],
+        'css': {
+            'all': [
+                'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css',
+            ]
+        }
+    },
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,7 +103,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Eshop.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -107,7 +133,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -118,7 +143,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -134,7 +158,6 @@ MEDIA_URL = 'MEDIA/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True

@@ -50,38 +50,14 @@
                     <div class="contact-info">
                         <h2 class="title text-center">اطلاعات تماس</h2>
                         <address>
-                            <p>گـروه تکنوگـرافی 1614</p>
-                            <p>ایـران - آذربایجـان غربـی - خـوی</p>
-                            <p>مجتـمع تجـاری تفریحـی شمس - طبـقه 2 - پلاک 54</p>
-                            <p>تلفن تماس : 80 21 24 36 044</p>
-                            <p>فکس : 80 21 24 36 044</p>
-                            <p style="font-family: tahoma;">ایمیـل : info@1614GP.ir</p>
+                            <p>{{ SiteSettings.site_name }}</p>
+                            <p>{{ SiteSettings.addr }}</p>
+{#                            <p>مجتـمع تجـاری تفریحـی شمس - طبـقه 2 - پلاک 54</p>#}
+                            <p>تلفن تماس : {{ SiteSettings.phone }}</p>
+                            <p>تلفن ثابت :{{ SiteSettings.phone_s }}</p>
+                            <p style="font-family: tahoma;">ایمیـل : {{ SiteSettings.email }}</p>
                         </address>
-                        <div class="social-networks">
-                            <h2 class="title text-center">شبکـه های اجتـماعی</h2>
-                            <span class="socials-share share">
-									<ul>
-										<a href="#">
-											<li>
-												<label>بلـه</label>
-												<img src="../../static/images/product-details/Bale.png"/>
-											</li>
-										</a>
-										<a href="#">
-											<li>
-												<label>سـروش</label>
-												<img src="../../static/images/product-details/Soroush.png"/>
-											</li>
-										</a>
-										<a href="#">
-											<li>
-												<label>اینستاگرام</label>
-												<img src="../../static/images/product-details/Instagram.png"/>
-											</li>
-										</a>
-									</ul>
-								</span>
-                        </div>
+
                     </div>
                 </div>
             </div>

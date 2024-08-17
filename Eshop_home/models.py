@@ -18,3 +18,20 @@ class Eshop_Contact_Us(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Eshop_Slider(models.Model):
+    title = models.CharField(max_length=100, verbose_name='نام اسلایدر')
+    url = models.CharField(max_length=100, verbose_name='لبنک')
+    url_name = models.CharField(max_length=100, verbose_name='نام لبنک ')
+    img = models.ImageField(upload_to='images/sliders/', verbose_name='عکس مناسب')
+    description = models.TextField(verbose_name='توضیحات')
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_delete = models.BooleanField(default=False, verbose_name='حذف')
+
+    class Meta:
+        verbose_name = 'اسلایدر'
+        verbose_name_plural = 'اسلایدر ها'
+
+    def __str__(self):
+        return self.title
