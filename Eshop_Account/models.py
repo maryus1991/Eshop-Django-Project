@@ -11,6 +11,7 @@ class User(AbstractUser):
     email_active_code = models.CharField(max_length=100, blank=True, null=True, verbose_name='کد تایید ایمیل')
     mobile_active_code = models.CharField(max_length=100, blank=True, null=True, verbose_name='کد تایید شماره همراه')
     avatar = models.ImageField(upload_to='avatar/', null=True, blank=True)
+    about_user = models.TextField(verbose_name='درباره کاربر', blank=True, null=True)
 
     def __str__(self):
         return self.username
