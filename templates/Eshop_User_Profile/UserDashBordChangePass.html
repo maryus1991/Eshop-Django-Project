@@ -1,0 +1,44 @@
+{% extends 'Base/Base.html' %}
+{% load render_partial %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% render_partial 'Eshop_User_Profile.views.user_panel_partial' user=user %}
+            <div class="col-md-8">
+                <form action="{% url 'UserDashBord.Change.pass' %}" method="post"
+                      >
+                    {% csrf_token %}
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {{ UserChangePass.current_pass }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ UserChangePass.password }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ UserChangePass.conform_password }}
+                        </li>
+                        {% if UserChangePass.errors %}
+                            <li class="list-group-item-danger">
+                            <div class="alert alert-danger">
+                                {{ UserChangePass.errors }}
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        <li class="list-group-item ">
+                            <input type="submit" value="ویرایش" class="btn btn-block btn-success">
+                        </li>
+                    </ul>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

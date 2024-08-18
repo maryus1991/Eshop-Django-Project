@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'Eshop_Blog',
     'sorl.thumbnail',
     'jalali_date',
+    'Eshop_User_Profile',
     'polls'
 ]
 

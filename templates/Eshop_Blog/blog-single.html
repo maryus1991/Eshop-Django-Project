@@ -54,7 +54,7 @@
                                 {% thumbnail blog.author.avatar '150x150' crop="center" as img %}
                                     <img src="{{ img.url }}" alt="">
                                 {% endthumbnail %}
-                                
+
                             {% endif %}
                         </a>
                         <div class="media-body">
@@ -71,100 +71,103 @@
                             </div>
                         </div>
                     </div><!--Comments-->
-                    <div class="response-area">
-                        <h2>پاسخ ها (3)</h2>
+                    <div class="response-area" id="response_area">
+                        <h2>پاسخ ها ({{ comment_count }})</h2>
                         <ul class="media-list">
-                            <li class="media">
+                            {% for comment in comments %}
+                                <li class="media">
+                                    <a class="pull-right" href="#">
+                                        {% thumbnail comment.user.avatar '150x150' crop="center" as img %}
+                                            <img src="{{ img.url }}" alt="">
+                                        {% endthumbnail %}
+                                    </a>
+                                    <div class="media-body">
+                                        <ul class="sinlge-post-meta">
+                                            <li><i class="fa fa-user"></i>{{ comment.user.username|title }}</li>
+                                            <li><i class="fa fa-clock-o"></i>{{ comment.get_jalali_create_time }}</li>
+                                            <li><i class="fa fa-calendar"></i>{{ comment.get_jalali_create_date }}</li>
+                                        </ul>
+                                        <p>{{ comment.text }}</p>
 
-                                <a class="pull-right" href="#">
-                                    <img class="media-object" src="../../static/images/blog/Customer.jpg" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <ul class="sinlge-post-meta">
-                                        <li><i class="fa fa-user"></i>مشتـری شمـاره 1</li>
-                                        <li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
-                                    </ul>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم
-                                        ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
-                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
-                                </div>
-                            </li>
-                            <li class="media second-media">
-                                <a class="pull-right" href="#">
-                                    <img class="media-object" src="../../static/images/blog/Customer.jpg" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <ul class="sinlge-post-meta">
-                                        <li><i class="fa fa-user"></i>مشتـری شمـاره 1</li>
-                                        <li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
-                                    </ul>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم
-                                        ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
-                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <a class="pull-right" href="#">
-                                    <img class="media-object" src="../../static/images/blog/Customer.jpg" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <ul class="sinlge-post-meta">
-                                        <li><i class="fa fa-user"></i>مشتـری شمـاره 1</li>
-                                        <li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
-                                    </ul>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم
-                                        ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
-                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
-                                </div>
-                            </li>
+                                        <a class="btn btn-primary" href="#bottom"><i
+                                                class="fa fa-reply" onclick="fillParentForComments({{ comment.id }})"></i>پاسـخ</a>
+                                    </div>
+                                </li>
+                                {% for sub_comment in comment.children.all %}
+                                    {% if sub_comment.is_active and not sub_comment.is_delete %}
+                                        <li class="media second-media }">
+                                            <a class="pull-right" href="#">
+                                                {% thumbnail sub_comment.user.avatar '150x150' crop="center" as img %}
+                                                    <img src="{{ img.url }}" alt="">
+                                                {% endthumbnail %}
+                                            </a>
+                                            <div class="media-body">
+                                                <ul class="sinlge-post-meta">
+                                                    <li><i class="fa fa-user"></i>{{ sub_comment.user.username|title }}
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-clock-o"></i>{{ sub_comment.get_jalali_create_time }}
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-calendar"></i>{{ sub_comment.get_jalali_create_date }}
+                                                    </li>
+                                                </ul>
+                                                <p>{{ sub_comment.text }}</p>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% endfor %}
+
+
                         </ul>
                     </div><!--/Response-area-->
-                    <div class="replay-box">
-                        <div class="row">
+                    {% if request.user.is_authenticated %}
 
-                            <div class="col-sm-8">
-                                <div class="text-area">
-                                    <div class="blank-arrow">
-                                        <label>متن پیام</label>
+                        <div class="replay-box" id="bottom">
+                            <div class="row">
+                            
+                                <div class="col-sm-12">
+                                    <div class="text-area border-box-sizing">
+                                        <div class="blank-arrow">
+                                            <label>متن پیام</label>
+                                        </div>
+                                        <span>*</span>
+                                        <textarea name="message" id="ssmmdd" rows="11"></textarea>
+                                        <input type="hidden" id="parentforcomments">
                                     </div>
-                                    <span>*</span>
-                                    <textarea name="message" rows="11"></textarea>
-                                    <a class="btn btn-primary" href="">ارسـال نظـر</a>
+                                    <div id="sucess_comment" class=""></div>
+                                    <a class="btn btn-primary btn-block " onclick="sendArticleComment({{ blog.id }})">ارسـال نظـر</a>
+                                    
+
+                                </div>
+                                <div class="col-sm-4 hidden">
+                                    <h2>نظـر خود را بنویسیـد</h2>
+                                    <form>
+                                        <div class="blank-arrow">
+                                            <label>نام</label>
+                                        </div>
+                                        <span>*</span>
+                                        <input type="text" id="username" value="{{ request.user.username }}"
+                                               placeholder="نام شما ...">
+                                        <div class="blank-arrow">
+                                            <label>آدرس ایمیـل</label>
+                                        </div>
+                                        <span>*</span>
+                                        <input type="email" id="email" value="{{ request.user.email }}"
+                                               placeholder="ایمیـل شما ...">
+                                    </form>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <h2>نظـر خود را بنویسیـد</h2>
-                                <form>
-                                    <div class="blank-arrow">
-                                        <label>نام</label>
-                                    </div>
-                                    <span>*</span>
-                                    <input type="text" placeholder="نام شما ...">
-                                    <div class="blank-arrow">
-                                        <label>آدرس ایمیـل</label>
-                                    </div>
-                                    <span>*</span>
-                                    <input type="email" placeholder="ایمیـل شما ...">
-                                    <div class="blank-arrow">
-                                        <label>وبسایت</label>
-                                    </div>
-                                    <input type="email" placeholder="آدرس وبسایـت">
-                                </form>
-                            </div>
+                        </div><!--/Repaly Box-->
+                    {% else %}
+                        <div class="alert alert-danger">
+                            برای درج نظر باید وارد سایت بشوید
                         </div>
-                    </div><!--/Repaly Box-->
+                    {% endif %}
+
+
                 </div>
 
                 {% render_partial 'Eshop_Blog.views.Blog_Category_Partial' %}

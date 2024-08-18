@@ -60,7 +60,7 @@ class BlogComment(models.Model):
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
     class Meta:
         verbose_name = 'کامنت '

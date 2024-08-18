@@ -1,0 +1,44 @@
+{% extends 'Base/Base.html' %}
+{% load render_partial %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% render_partial 'Eshop_User_Profile.views.user_panel_partial' user=user%}
+            <div class="col-md-8">
+                <form action="{% url 'UserDashBord_editUser_Profile_page' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {{ UsereditForm.first_name }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ UsereditForm.last_name }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ UsereditForm.email }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ UsereditForm.about_user }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ UsereditForm.avatar }}
+                        </li>
+                        <li class="list-group-item-danger">
+                            {{ UsereditForm.errors }}
+                        </li>
+                        <li class="list-group-item ">
+                            <input type="submit" value="ویرایش" class="btn btn-block btn-success">
+                        </li>
+                    </ul>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

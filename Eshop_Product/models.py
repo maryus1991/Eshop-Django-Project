@@ -1,14 +1,14 @@
-from django.utils.text import slugify
-from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import models
+from django.utils.text import slugify
 
 
 class ProductBrand(models.Model):
     title = models.CharField(max_length=100, verbose_name="نام برند", db_index=True)
-    slug = models.SlugField(max_length=100, unique=True, verbose_name='نام در url')
+    slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='نام در url')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_deleted = models.BooleanField(default=False, verbose_name="حذف کردن")
-    description = models.TextField(verbose_name="توضیحات برند" )
+    description = models.TextField(verbose_name="توضیحات برند")
 
     class Meta:
         verbose_name = 'برند'
@@ -19,13 +19,15 @@ class ProductBrand(models.Model):
 
 
 class ProductCategory(models.Model):
-    title = models.CharField(db_index=True,max_length=100, verbose_name='عنوان')
+    title = models.CharField(db_index=True, max_length=100, verbose_name='عنوان')
     slug = models.SlugField(db_index=True, unique=True, blank=True, verbose_name='عنوان در url')
     is_active = models.BooleanField(default=True, verbose_name="فعال")
     is_delete = models.BooleanField(default=False, verbose_name="حذف کردن")
+    parent = models.ForeignKey('ProductCategory', on_delete=models.CASCADE, related_name='children', null=True,
+                               blank=True)
 
     def __str__(self):
-        return self.title
+        return self.slug
 
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.title)
@@ -34,12 +36,11 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'
-        unique_together = (('slug', 'id', 'is_active', 'is_delete'),)
 
 
 class ProductTag(models.Model):
     title = models.CharField(db_index=True, max_length=100, verbose_name='عنوان')
-    slug = models.CharField(max_length=100,db_index=True, unique=True,verbose_name='عنوان در url')
+    slug = models.CharField(max_length=100, db_index=True, unique=True, verbose_name='عنوان در url')
     is_active = models.BooleanField(default=True, verbose_name="فعال")
     is_delete = models.BooleanField(default=False, verbose_name="حذف کردن")
 
@@ -64,10 +65,10 @@ class Product(models.Model):
     short_description = models.TextField(db_index=True, verbose_name='توضیحات کوتاه')
     slug = models.SlugField(db_index=True, unique=True, blank=True, verbose_name='عنوان در url')
     is_active = models.BooleanField(default=True, verbose_name="فعال")
-    category = models.ManyToManyField(ProductCategory, db_index=True,
-                                      related_name='Products', verbose_name='کتگوری ها', blank=True, null=True)
-    product_tags = models.ManyToManyField(ProductTag,  related_name='Tags'
-                                          , verbose_name='تگ های محصول', blank=True, null=True )
+    category = models.ManyToManyField(ProductCategory, db_index=True, related_name='Products', verbose_name='کتگوری ها',
+                                      blank=True, null=True)
+    product_tags = models.ManyToManyField(ProductTag, related_name='Tags', verbose_name='تگ های محصول', blank=True,
+                                          null=True)
     is_delete = models.BooleanField(default=False, verbose_name="حذف کردن")
     brand = models.ForeignKey(ProductBrand, null=True, blank=True, verbose_name='برند', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='image/product/', null=True, blank=True, verbose_name='تصویر محصول')
@@ -83,5 +84,3 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.id})({self.price})'
-
-

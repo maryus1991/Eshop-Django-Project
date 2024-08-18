@@ -1,0 +1,23 @@
+{% load thumbnail %}
+
+<div class="col-md-4 pull-right">
+    <div class="panel panel-info">
+        <div class="panel-body ">
+            <ul class="list-group">
+
+                <li class="list-group-item">
+                    <a href="{% url 'UserDashBord.Change.pass' %}">تغییر رمز عبور</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'UserDashBord_editUser_Profile_page' %}">ویرایش اطلاعات</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        {% thumbnail user.avatar '250x250' crop="center" as img %}
+            <img class="thumbnail" src="{{ img.url }}" alt="">
+        {% endthumbnail %}
+    </div>
+
+</div>

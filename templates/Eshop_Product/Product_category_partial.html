@@ -1,0 +1,73 @@
+<div class="col-sm-3">
+    <div class="left-sidebar">
+        <h2>دسته بندی محصولات</h2>
+        <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+            {% for cat in Product_Category %}
+                {% if cat.children.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordian" href="#{{ cat.id }}">
+                                    <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                    <a href="{% url 'category_list_page_slug' category=cat.slug %}">
+                                        {{ cat.title }}
+                                    </a>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="{{ cat.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul>
+                                    {% for sub_category in cat.children.all %}
+                                        <li>
+                                            <i class="fa fa-li"></i><a
+                                                href="{% url 'category_list_page_slug' category=sub_category.slug %}">
+                                            <h5>{{ sub_category.title }}</h5>
+                                        </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a
+                                    href="{% url 'category_list_page_slug' category=cat.slug %}">{{ cat.title|truncatechars:20 }}</a>
+                            </h4>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+
+        </div><!--/category-productsr-->
+        <div class="brands_products"><!--brands_products-->
+            <h2>برنـد ها</h2>
+            <div class="brands-name">
+                <ul class="nav nav-pills nav-stacked">
+                    {% for brand in Product_Brand %}
+
+                        <li><a href="{% url 'brand_list_page_slug' brand=brand.slug %}"> <span class="pull-left">(
+                    {{ brand.product_count }})</span>{{ brand.title|truncatechars:20 }}</a></li>
+                    {% endfor %}
+
+
+                </ul>
+            </div>
+        </div><!--/brands_products-->
+
+        <div class="price-range"><!--price-range-->
+            <h2>فیلتـر قیمـت</h2>
+            <div class="well">
+                <input type="text" class="span" value="" data-slider-min="0" data-slider-max="100000000"
+                       data-slider-step="5" data-slider-value="[25000000,85000000]" id="sl2"><br/>
+                <b class="pull-left">0 ريال</b><b>100.000.000 ريال</b>
+            </div>
+        </div><!--/price-range-->
+
+
+    </div>
+</div>

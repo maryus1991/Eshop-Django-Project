@@ -11,6 +11,7 @@ def home_index(request):
         'slider' : Eshop_Slider.objects.filter(is_active=True, is_delete=False).all()[:2],
         'SiteSettings': SiteSettings.objects.filter(is_main_setting=True, is_active=True).first()
     }
+
     return render(request, 'Eshop_home/Eshop_home_index.html', context)
 
 

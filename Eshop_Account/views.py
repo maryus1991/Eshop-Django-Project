@@ -5,13 +5,16 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.views import View
+
 from Eshop_Account.forms import RegisterForm, LoginForm, ForgotPassFormEmail, ResetPassForm
 from utils.EmailService import SendMail
 from .models import User
 
+
 def logout_user(request):
     logout(request)
     return redirect(reverse('login.auth.page'))
+
 
 class ForgotPass(View):
     def get(self, request):
@@ -41,8 +44,7 @@ class ResetPassEmail(View):
             return redirect(reverse('login.auth.page'))
         else:
             Reset_Pass_Form = ResetPassForm()
-            context = {'Reset_Pass_Form': Reset_Pass_Form,
-                       'user': user}
+            context = {'Reset_Pass_Form': Reset_Pass_Form, 'user': user}
         return render(request, 'Eshop_Account/change_pass.html', context)
 
     def post(self, request, active_code):
@@ -81,9 +83,8 @@ class RegisterView(View):
             if user:
                 register_form.add_error('username', 'این مشخصات قبلا وارد سایت شده است')
             else:
-                new_user = User(username=username, email=email, mobile=phone,
-                                email_active_code=get_random_string(72), mobile_active_code=get_random_string(10),
-                                is_active=False)
+                new_user = User(username=username, email=email, mobile=phone, email_active_code=get_random_string(72),
+                                mobile_active_code=get_random_string(10), is_active=False)
                 new_user.set_password(password)
                 new_user.save()
                 SendMail(new_user.email, 'فعال سازی حساب کاربری', {'user': new_user}, 'emails/active.html')
@@ -107,7 +108,7 @@ class loginView(View):
                 if user.is_active:
                     if user.check_password(login_form.cleaned_data.get('password')):
                         login(request, user)
-                        return redirect(reverse('home.index.page'))
+                        return redirect(reverse('UserDashBord_editUser_Profile_page'))
                     else:
                         login_form.add_error('username', 'کاربر یافت نشد')
                 else:

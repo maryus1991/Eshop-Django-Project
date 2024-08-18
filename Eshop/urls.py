@@ -27,4 +27,5 @@ urlpatterns = [
                   path('', include('Eshop_home.urls')),
                   path('auth/', include('Eshop_Account.urls')),
                   path('blog/', include('Eshop_Blog.urls')),
+                  path('user/', include('Eshop_User_Profile.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
