@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'jalali_date',
     'Eshop_User_Profile',
-    'polls'
+    'polls',
+    "Eshop_Order"
 ]
 
 JALALI_DATE_DEFAULTS = {
