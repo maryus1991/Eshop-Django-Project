@@ -19,12 +19,16 @@
                             <div class="panel-body">
                                 <ul>
                                     {% for sub_category in cat.children.all %}
-                                        <li>
-                                            <i class="fa fa-li"></i><a
-                                                href="{% url 'category_list_page_slug' category=sub_category.slug %}">
-                                            <h5>{{ sub_category.title }}</h5>
-                                        </a>
-                                        </li>
+                                        {% if sub_category.is_active and not sub_category.is_delete %}
+
+
+                                            <li>
+                                                <i class="fa fa-li"></i><a
+                                                    href="{% url 'category_list_page_slug' category=sub_category.slug %}">
+                                                <h5>{{ sub_category.title }}</h5>
+                                            </a>
+                                            </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -60,12 +64,17 @@
         </div><!--/brands_products-->
 
         <div class="price-range"><!--price-range-->
-            <h2>فیلتـر قیمـت</h2>
-            <div class="well">
-                <input type="text" class="span" value="" data-slider-min="0" data-slider-max="100000000"
-                       data-slider-step="5" data-slider-value="[25000000,85000000]" id="sl2"><br/>
-                <b class="pull-left">0 ريال</b><b>100.000.000 ريال</b>
-            </div>
+            <form action="{% url 'product_list_page' %}">
+                {% csrf_token %}
+                <h2>فیلتـر قیمـت</h2>
+                <div class="well">
+                    <input type="text" class="span" name="price" value="{{ S_Price }},{{ E_Price }}" data-slider-min="0"
+                           data-slider-max="{{ E_Price }}"
+                           data-slider-step="1000" data-slider-value="[{{ S_Price }},{{ E_Price }}]" id="sl2"><br/>
+                    <b class="pull-left">{{ S_Price }}</b><b>{{ E_Price }}</b>
+                    <button type="submit" class="btn btn-block btn-warning">فیلتر</button>
+                </div>
+            </form>
         </div><!--/price-range-->
 
 

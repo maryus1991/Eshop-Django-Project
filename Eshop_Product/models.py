@@ -2,6 +2,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.text import slugify
 
+from Eshop_Account.models import User
+
 
 class ProductBrand(models.Model):
     title = models.CharField(max_length=100, verbose_name="نام برند", db_index=True)
@@ -84,3 +86,31 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.id})({self.price})'
+
+
+class ProductVisit(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول', related_name='visits')
+    ipaddress = models.GenericIPAddressField(verbose_name='ای پی کاربر')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='کاربر')
+
+    def __str__(self):
+        return f'{self.product.id} => ({self.ipaddress})'
+
+    class Meta:
+        verbose_name = 'بازدید محصول'
+        verbose_name_plural = 'بازدید محصولات'
+
+
+class ProductGallery(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='گالری تصاویر',
+                                related_name='galleries')
+    image = models.ImageField(upload_to='images/galleries', verbose_name='عکس')
+    is_active = models.BooleanField(default=True, verbose_name="فعال")
+    is_delete = models.BooleanField(default=False, verbose_name="حذف کردن")
+
+    def __str__(self):
+        return f'{self.product.name}/({self.id})'
+
+    class Meta:
+        verbose_name = 'گالری'
+        verbose_name_plural = 'گالریها'

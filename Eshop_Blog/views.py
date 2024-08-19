@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse
+from django.db.models import Q
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 from .models import Blog, Blog_Category, BlogComment
@@ -50,7 +51,7 @@ class BlogDetailView(DetailView):
         context['comments'] = BlogComment.objects.filter(is_active=True, is_delete=False, blog_id=obj.id,
                                                          parent=None).prefetch_related('children').order_by('-id')
         context['comment_count'] = BlogComment.objects.filter(is_active=True, is_delete=False, blog_id=obj.id,
-                                                         parent=None).count()
+                                                              parent=None).count()
         return context
 
 
@@ -66,14 +67,15 @@ def add_blog_comments(request):
                                         parent_id=parent).save())
 
             comments = BlogComment.objects.filter(is_active=True, is_delete=False, blog_id=blog_id,
-                                       parent=None).prefetch_related('children').order_by('-id')
+                                                  parent=None).prefetch_related('children').order_by('-id')
             comment_count = BlogComment.objects.filter(is_active=True, is_delete=False, blog_id=blog_id).count()
-            return render(request, 'Eshop_Blog/commentBlog.html', {'comments': comments, 'comment_count': comment_count})
-
-
+            return render(request, 'Eshop_Blog/commentBlog.html',
+                          {'comments': comments, 'comment_count': comment_count})
 
 
 def Blog_Category_Partial(request):
-    blog_category = Blog_Category.objects.prefetch_related('children').filter(is_active=True, is_delete=False, parent_id=None)
+    blog_category = Blog_Category.objects.prefetch_related('children',
+                                                           filter=Q(is_active=True, is_delete=False)).filter(
+        is_active=True, is_delete=False, parent_id=None)
     context = {'blog_category': blog_category}
     return render(request, 'Eshop_Blog/partial_view/Blog_Category_Partial.html', context)
