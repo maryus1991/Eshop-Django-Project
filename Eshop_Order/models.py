@@ -10,6 +10,17 @@ class Order(models.Model):
     payment_date = models.DateTimeField(blank=True, null=True, verbose_name='تاریخ پرداخت')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
 
+
+    def get_final_price(self):
+        total_price = 0
+        if self.is_paid:
+            for order_detail in self.details.filter(is_active=True).all():
+                total_price += float(order_detail.final_price) * float(order_detail.count)
+        else:
+            for order_detail in self.details.filter(is_active=True).all():
+                total_price += float(order_detail.product.price) * float(order_detail.count)
+        return total_price
+
     class Meta:
         verbose_name = 'سبد خرید'
         verbose_name_plural = 'سبدهای خرید کاربران'
@@ -28,6 +39,7 @@ class OrderDetail(models.Model):
 
     def __str__(self):
         return str(self.order)
+
 
     class Meta:
         verbose_name = 'جزییات سبد خرید'

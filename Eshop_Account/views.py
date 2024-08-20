@@ -1,9 +1,11 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from django.utils.decorators import method_decorator
 from django.views import View
 
 from Eshop_Account.forms import RegisterForm, LoginForm, ForgotPassFormEmail, ResetPassForm
@@ -11,11 +13,13 @@ from utils.EmailService import SendMail
 from .models import User
 
 
+# @login_required
 def logout_user(request):
     logout(request)
     return redirect(reverse('login.auth.page'))
 
 
+@method_decorator(login_required, name='dispatch')
 class ForgotPass(View):
     def get(self, request):
         forgot_form = ForgotPassFormEmail()
@@ -37,6 +41,7 @@ class ForgotPass(View):
         return render(request, 'Eshop_Account/forget_password.html')
 
 
+@method_decorator(login_required, name='dispatch')
 class ResetPassEmail(View):
     def get(self, request, active_code):
         user: User = User.objects.filter(email_active_code__iexact=active_code).first()
@@ -64,6 +69,7 @@ class ResetPassEmail(View):
             raise Http404('کاربر یافت نشد')
 
 
+# @method_decorator(login_required, name='dispatch')
 class RegisterView(View):
 
     def get(self, request):
@@ -93,6 +99,7 @@ class RegisterView(View):
         return render(request, 'Eshop_Account/signin.html', context)
 
 
+# @method_decorator(login_required, name='dispatch')
 class loginView(View):
 
     def get(self, request):
@@ -119,6 +126,7 @@ class loginView(View):
         return render(request, 'Eshop_Account/login.html', context)
 
 
+# @method_decorator(login_required, name='dispatch')
 class activate_account_email(View):
     def get(self, request, activate_account_email):
         try:

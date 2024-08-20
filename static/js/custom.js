@@ -37,11 +37,21 @@ function sendArticleComment(blog_id) {
 }
 
 function remove_item_content(detail_id) {
-    $.get('/order/remove?detail_id=' + detail_id).then(res =>{
-        if(res.status === 200){
-        $('#order').html(res.data)}
+    $.get('/order/remove?detail_id=' + detail_id).then(res => {
+            if (res.status === 200) {
+                $('#order').html(res.data)
+            }
         }
     )
+}
 
-
+function ChangeOrderCount(detail_id, state) {
+    $.get('/order/Change-Count?detail_id=' + detail_id + '&state=' + state).then(res => {
+            if (res.status === 200) {
+                $('#order').html(res.data)
+            } else {
+                $('#problem').removeClass('hidden').text(res.status)
+            }
+        }
+    )
 }

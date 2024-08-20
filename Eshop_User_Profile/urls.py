@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserDashBord, UserDashBord_editUser_Profile_page, UserDashBord_Change_pass
+from .views import UserDashBord_editUser_Profile_page, UserDashBord_Change_pass
 
 urlpatterns = [
     path('', UserDashBord_editUser_Profile_page.as_view(), name='dashboard.user'),

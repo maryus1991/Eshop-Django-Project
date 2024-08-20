@@ -1,15 +1,17 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, View
 
 from Eshop_Account.models import User
 from .forms import UserEditForm, UserChangePass
 
 
-class UserDashBord(TemplateView):
-    template_name = 'Eshop_User_Profile/UserDashBord.html'
+# class UserDashBord(TemplateView):
+#     template_name = 'Eshop_User_Profile/UserDashBord.html'
 
-
+@method_decorator(login_required, name='dispatch')
 class UserDashBord_editUser_Profile_page(View):
     def get(self, request, *args, **kwargs):
         curren_user = User.objects.filter(id=request.user.id, is_active=True, is_deleted=False).first()
@@ -25,6 +27,7 @@ class UserDashBord_editUser_Profile_page(View):
         return render(request, 'Eshop_User_Profile/UserDashBord.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserDashBord_Change_pass(TemplateView):
     template_name = 'Eshop_User_Profile/UserDashBordChangePass.html'
 
@@ -51,5 +54,6 @@ class UserDashBord_Change_pass(TemplateView):
         return render(request, 'Eshop_User_Profile/UserDashBordChangePass.html', context)
 
 
+@login_required
 def user_panel_partial(request, user):
     return render(request, 'Eshop_User_Profile/partial/user_panel_partial.html', {'user': user})

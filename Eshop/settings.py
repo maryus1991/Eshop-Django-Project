@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+from django.urls import reverse
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +23,7 @@ SECRET_KEY = 'django-insecure-xgx8$5%1d2mu7xr73b5ga_^sdhh@uxqkz15p7hhg#l13mle440
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+LOGIN_URL = '/auth/login'
 ALLOWED_HOSTS = []
 
 # Application definition
