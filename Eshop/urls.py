@@ -21,11 +21,11 @@ from django.urls import path, include
 
 from . import settings
 
-urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('product/', include('Eshop_Product.urls')),
-                  path('', include('Eshop_home.urls')),
-                  path('auth/', include('Eshop_Account.urls')),
-                  path('blog/', include('Eshop_Blog.urls')),
-                  path('user/', include('Eshop_User_Profile.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = [path('admin/', admin.site.urls),
+               path('product/', include('Eshop_Product.urls')),
+               path('', include('Eshop_home.urls')),
+               path('auth/', include('Eshop_Account.urls')),
+               path('blog/', include('Eshop_Blog.urls')),
+               path('user/', include('Eshop_User_Profile.urls')),
+               path('order/', include('Eshop_Order.urls')),
+               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

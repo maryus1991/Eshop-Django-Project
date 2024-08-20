@@ -1,0 +1,103 @@
+{% extends 'Base/Base.html' %}
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+    سبد خرید
+{% endblock %}
+
+{% block content %}
+<div id="order">
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="#">خانـه</a></li>
+                    <li class="active">پرداخت</li>
+                </ol>
+            </div><!--/breadcrums-->
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">کـالا</td>
+                        <td class="description"></td>
+                        <td class="price">قیمت</td>
+                        <td class="quantity">تعـداد</td>
+                        <td class="total">مجمـوع</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in user_order %}
+                        <tr>
+                            <td class="cart_product">
+                                {% thumbnail order.product.image '110x110' crop="center" as img %}
+                                    <img src="{{ img.url }}" alt="">
+                                {% endthumbnail %}
+                            </td>
+                            <td class="cart_description">
+                                <h4><a href="{% url 'product_detail_page' pk=order.product.id %}">{{ order.product.name|truncatechars:10 }}</a></h4>
+                                <p>شناسـه : {{ order.product.id }}</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>{{ order.product.price|tdc }} تومان</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <a class="cart_quantity_up" href=""> + </a>
+                                    <input class="cart_quantity_input" type="text" name="quantity" value="{{ order.count }}"
+                                           autocomplete="off" size="5">
+                                    <a class="cart_quantity_down" href=""> - </a>
+                                </div>
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price">{{ order.final_price|tdc }} تومان</p>
+                            </td>
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete" onclick="remove_item_content({{ order.id }})" ><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+
+    <section id="do_action">
+        <div class="container">
+
+            <div class="col-sm-12">
+                <div class="">
+                    <div class="chose_area">
+                        <ul class="user_option">
+                            <li>
+                                <h3>استفاده از کوپـن خریـد / کارت تخفیـف :</h3>
+                            </li>
+                            <li class="single_field zip-field">
+                                <input type="text" placeholder="کد تخفیف خود را وارد نمایید ...">
+                            </li>
+                            <li>
+                                <a class="btn btn-default update" href="">بررسی و اعمال</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="total_area ">
+                    <ul>
+                        <li>مجمـوع سبـد خریـد <span>{{ total|tdc }}تومان</span></li>
+{#                                                <li>مجمـوع <span>{{ total * 10|tdc }} ريال</span></li>#}
+                        <a class="btn btn-default check_out " href="checkout.html">پرداخت</a>
+                    </ul>
+                </div>
+            </div>
+
+    </section><!--/#do_action-->
+</div>
+
+{% endblock %}

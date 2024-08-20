@@ -48,7 +48,7 @@
                                     {% if request.user.is_authenticated %}
                                         <li><a href="{% url 'logout.auth.page' %}"><i class="fa fa-sign-out"></i> خروج</a>
                                         </li>
-                                        <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>
+                                        <li><a href="{% url 'Orders.page'  %}"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>
                                         <li><a href="{% url 'dashboard.user' %}"><i class="fa fa-user"></i> حساب کاربـری</a></li>
                                         <li><a href="#"><i class="fa fa-star"></i> لیست علاقه مندی ها</a></li>
                                     {% if request.user.is_superuser %}

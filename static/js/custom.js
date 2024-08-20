@@ -2,6 +2,19 @@ function fillParentForComments(id) {
     $('#parentforcomments').val(id)
 }
 
+function addProductToOrder(product_id) {
+    let Product_count = $('#Product_count').val()
+    $.get('/order/add-Product-To-Order?pid=' + product_id + '&count=' + Product_count).then(res => {
+        if (res.status === 200) {
+            document.getElementById('successfororder').removeAttribute('hidden')
+        } else {
+            // console.log('ssssssssssssssss')
+            $('#resultreq').text(res.status)
+            $('#successfororder').removeClass('alert-success').addClass('alert-danger')
+            document.getElementById('successfororder').removeAttribute('hidden')
+        }
+    })
+}
 
 function sendArticleComment(blog_id) {
     var text = $('#ssmmdd').val()
@@ -21,4 +34,14 @@ function sendArticleComment(blog_id) {
             var username = $('#username').val('')
             document.getElementById('response_area').scrollIntoView({behavior: "smooth"})
         })
+}
+
+function remove_item_content(detail_id) {
+    $.get('/order/remove?detail_id=' + detail_id).then(res =>{
+        if(res.status === 200){
+        $('#order').html(res.data)}
+        }
+    )
+
+
 }
