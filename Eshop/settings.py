@@ -165,7 +165,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'mail.mebrahimy.ir'
-EMAIL_HOST_USER = 'no-reply@mebrahimy.ir'
-EMAIL_HOST_PASSWORD = '?c05-FeSE0-B'
+EMAIL_HOST_USER = ' '
+EMAIL_HOST_PASSWORD = ' '
 EMAIL_PORT = 587
 

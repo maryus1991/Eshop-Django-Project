@@ -35,9 +35,7 @@
                                         </a>
                                     </div>
                                     <div class="col-sm-6">
-                                        {% thumbnail slide.img '500x500' crop="center" as img %}
-                                            <img src="{{ img.url }}" alt="">
-                                        {% endthumbnail %}
+
 {#                                        <img src="{{ slide.img.url }}" class="girl img-responsive" alt=""/>#}
                                         {#									<img src="../static/images/home/pricing.png" class="pricing" alt="" />#}
                                     </div>
@@ -78,7 +76,7 @@
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
                                                         {#                                                        {% if Product.image %}#}
-                                                        {% thumbnail Product.image '268x134' crop="center" as img %}
+                                                        {% thumbnail product.image '268x134' crop="center" as img %}
                                                             <img src="{{ img.url }}" alt="">
                                                         {% endthumbnail %}
                                                         {#                                                        {% else %}#}
@@ -117,7 +115,7 @@
 
                 <div class="col-sm-12 padding-right">
                     <div class="features_items"><!--RetailSale_items-->
-                        <a href="shop-2.html"><h2 class="title text-center">محبوب ترین محصولات</h2></a>
+                        <a><h2 class="title text-center">محبوب ترین محصولات</h2></a>
                         <div id="new-item-carousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 {% for products in most_popular_products %}
@@ -129,7 +127,7 @@
                                                     <div class="single-products">
                                                         <div class="productinfo text-center">
                                                             {#                                                            {% if Product.image %}#}
-                                                            {% thumbnail Product.image '268x250' crop="center" as img %}
+                                                            {% thumbnail product.image '268x250' crop="center" as img %}
                                                                 <img src="{{ img.url }}" alt="">
                                                             {% endthumbnail %}
                                                             {#                                                            {% else %}#}

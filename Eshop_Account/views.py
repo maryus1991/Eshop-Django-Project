@@ -46,7 +46,7 @@ class ResetPassEmail(View):
     def get(self, request, active_code):
         user: User = User.objects.filter(email_active_code__iexact=active_code).first()
         if user is None:
-            return redirect(reverse('login.auth.page') + '?status=این کلید ج    اری منقضی شده است')
+            return redirect(reverse('login.auth.page') + '?status=این کلید جاری منقضی شده است')
         else:
             Reset_Pass_Form = ResetPassForm()
             context = {'Reset_Pass_Form': Reset_Pass_Form, 'user': user}

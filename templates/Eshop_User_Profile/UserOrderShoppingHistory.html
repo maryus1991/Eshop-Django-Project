@@ -1,0 +1,36 @@
+{% extends 'Base/Base.html' %}
+{% load render_partial %}
+{% load jalali_tags %}
+{% load poll_extras %}
+{% block title %}
+   جزییات خرید
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% render_partial 'Eshop_User_Profile.views.user_panel_partial' user=user%}
+            <div class="col-md-8">
+                <table class="table table-responsive table-hover table-striped">
+                    <tr>
+                        <td>تعداد</td>
+                        <td>قیمت</td>
+                        <td>محصول</td>
+
+                    </tr>
+                    {% for order in order_details %}
+                    	<tr>
+                            <td>{{ order.count }}</td>
+                            <td>{{ order.final_price|tdc }}</td>
+                            <td><a href="{% url 'product_detail_page' pk=order.product.id %}">
+                                <button class="btn btn-warning">
+                                    مشاهده محصول
+                                </button>
+                            </a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

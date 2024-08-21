@@ -36,11 +36,14 @@ def addProductToOrder(request):
                     user_order_detail = user_order[0].details.filter(product_id=product.id, is_active=True).first()
                     if user_order_detail is not None:
                         user_order_detail.count += count
+                        user_order_detail.final_price = float(user_order_detail.count) * product.price
                         user_order_detail.save()
                         return JsonResponse({'status': 200})
                     else:
                         order_detail = OrderDetail.objects.create(count=count, product_id=product.id,
-                                                                  order_id=user_order[0].id)
+                                                                  order_id=user_order[0].id,
+                                                                  final_price=float(product.price) * float(count)
+                                                                  )
                         order_detail.save()
                         return JsonResponse({'status': 200})
                 else:
@@ -96,7 +99,7 @@ def ChangeOrderCount(request):
     if detail_id is None or state is None:
         return JsonResponse({'status': 'محصول پیدا نشد'})
 
-    detail = OrderDetail.objects.filter(id=detail_id, is_active=True, order__is_active=True, order__is_paid=False
+    detail: OrderDetail = OrderDetail.objects.filter(id=detail_id, is_active=True, order__is_active=True, order__is_paid=False
                                         , order__user_id=request.user.id).first()
 
     if detail is None:
@@ -104,6 +107,7 @@ def ChangeOrderCount(request):
 
     if state == 'i':
         detail.count += 1
+        detail.final_price = float(detail.count) * float(detail.product.price)
         detail.save()
     elif state == 'd':
         if detail.count <= 1:
@@ -111,6 +115,7 @@ def ChangeOrderCount(request):
             detail.save()
         elif detail.count > 1:
             detail.count -= 1
+            detail.final_price = float(detail.count) * float(detail.product.price)
             detail.save()
         else:
             return JsonResponse({'status': 'مشکلی پیش اومد'})

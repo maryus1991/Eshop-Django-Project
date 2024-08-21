@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.db.models.aggregates import Count
+from django.db.models.aggregates import Count, Sum
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -14,7 +14,8 @@ from .models import Eshop_Slider
 def home_index(request):
     # print(list_slicer(Product.objects.filter(is_active=True, is_delete=False).all()[:8]))
     latest_products = Product.objects.filter(is_active=True, is_delete=False).order_by('-id')[:8]
-    most_popular_products = Product.objects.filter(is_active=True, is_delete=False).order_by('rating')[:8]
+    most_popular_products = Product.objects.filter(is_active=True, is_delete=False, orderdetail__order__is_paid=True
+                                                   ).annotate(order_count=Sum('orderdetail__order')).order_by('-order_count')[:8]
     most_visited_products = Product.objects.filter(is_active=True, is_delete=False).annotate(
         visit_count=Count('visits')).order_by('-visit_count')[:8]
     Product_Category = list(
