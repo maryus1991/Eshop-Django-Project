@@ -1,11 +1,9 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
-from django.utils.decorators import method_decorator
 from django.views import View
 
 from Eshop_Account.forms import RegisterForm, LoginForm, ForgotPassFormEmail, ResetPassForm
@@ -19,7 +17,6 @@ def logout_user(request):
     return redirect(reverse('login.auth.page'))
 
 
-@method_decorator(login_required, name='dispatch')
 class ForgotPass(View):
     def get(self, request):
         forgot_form = ForgotPassFormEmail()
@@ -29,24 +26,27 @@ class ForgotPass(View):
     def post(self, request):
         forgot_form = ForgotPassFormEmail(request.POST)
         if forgot_form.is_valid():
-            mobile = forgot_form.cleaned_data.get('phone')
+            # mobile = forgot_form.cleaned_data.get('phone')
             email = forgot_form.cleaned_data.get('email')
-            user: User = User.objects.filter(mobile__iexact=mobile, email__iexact=email).first()
+            user: User = User.objects.filter(email__iexact=email).first()
             if user is not None:
-                SendMail(User.email, 'تغییر رمز عبور', {'user': User}, 'emails/forgot_pass.html')
-                return redirect(reverse('login.auth.page'))
+                status = SendMail(user.email, 'تغییر رمز عبور', {'user': user}, 'emails/forgot_pass.html')
+                if status:
+                    return redirect(
+                        reverse('login.auth.page') + '?status=یک ایمل برای شما ارسال شد لطفا پوشه اپم هارا  هم چک کنید')
+                else:
+                    raise Http404('مشکلی پیش امده است لطفا دوباره امتحان کنید')
             else:
                 forgot_form.add_error('email', 'کاربر یافت نشد')
 
         return render(request, 'Eshop_Account/forget_password.html')
 
 
-@method_decorator(login_required, name='dispatch')
 class ResetPassEmail(View):
     def get(self, request, active_code):
         user: User = User.objects.filter(email_active_code__iexact=active_code).first()
         if user is None:
-            return redirect(reverse('login.auth.page'))
+            return redirect(reverse('login.auth.page') + '?status=این کلید ج    اری منقضی شده است')
         else:
             Reset_Pass_Form = ResetPassForm()
             context = {'Reset_Pass_Form': Reset_Pass_Form, 'user': user}
@@ -62,9 +62,9 @@ class ResetPassEmail(View):
                 user.email_active_code = get_random_string(72)
                 user.is_active = True
                 user.save()
-                return redirect(reverse('login.auth.page'))
+                return redirect(reverse('login.auth.page') + '?status=رمز عبور شما با موفقیت تغییر داد شد')
             else:
-                return redirect(reverse('login.auth.page'))
+                return Http404('کاربر یافت نشد')
         else:
             raise Http404('کاربر یافت نشد')
 
@@ -94,17 +94,18 @@ class RegisterView(View):
                 new_user.set_password(password)
                 new_user.save()
                 SendMail(new_user.email, 'فعال سازی حساب کاربری', {'user': new_user}, 'emails/active.html')
-                return redirect(reverse('login.auth.page'))
+                return redirect(reverse(
+                    'login.auth.page') + '?status=لطفا ایمیل را تایید کنید و پوشه اسپم یا هرزنام را هم چک کنید ')
         context = {'register_form': register_form}
         return render(request, 'Eshop_Account/signin.html', context)
 
 
 # @method_decorator(login_required, name='dispatch')
 class loginView(View):
-
     def get(self, request):
         login_form = LoginForm
-        context = {'login_form': login_form}
+        status = request.GET.get('status') or None
+        context = {'login_form': login_form, 'status': status}
         return render(request, 'Eshop_Account/login.html', context)
 
     def post(self, request):
@@ -132,16 +133,13 @@ class activate_account_email(View):
         try:
             user: User = User.objects.filter(email_active_code__iexact=activate_account_email).first()
             if user is not None:
-                if user.is_active:
-                    user.email_verified = True
-                    user.is_active = True
-                    user.is_verified = True
-                    user.email_active_code = get_random_string(72)
-                    user.save()
-                    return redirect(reverse('login.auth.page'))
-                else:
-                    pass
+                user.email_verified = True
+                user.is_active = True
+                user.is_verified = True
+                user.email_active_code = get_random_string(72)
+                user.save()
+                return redirect(reverse('login.auth.page') + '?status=حساب شما با موفقیت تایید شد ')
             else:
-                raise Http404()
+                raise Http404('کاربر پیدا نشد')
         except:
-            raise Http404()
+            raise Http404('کاربر پیدا نشد')

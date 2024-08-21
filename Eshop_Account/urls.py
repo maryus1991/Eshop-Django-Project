@@ -7,5 +7,5 @@ urlpatterns = [
     path('logout', logout_user, name='logout.auth.page'),
     path('forgutpassword', ForgotPass.as_view(), name='forgot.pass.auth.page'),
     path('reset-pass/email/<str:active_code>', ResetPassEmail.as_view(), name='reset.pass.auth.page.2.3'),
-    path('activate-account/email/<activate_account_email>', activate_account_email.as_view(), name='activate.email.auth.page'),
+    path('activate-account/email/<str:activate_account_email>', activate_account_email.as_view(), name='activate.email.auth.page'),
 ]

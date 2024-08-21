@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
 from django.shortcuts import render
@@ -5,6 +6,21 @@ from django.template.loader import render_to_string
 
 from Eshop_Product.models import Product
 from .models import Order, OrderDetail
+
+# if settings.SANDBOX:
+#     sandbox = 'sandbox'
+# else:
+#     sandbox = 'www'
+#
+# ZP_API_REQUEST = f"https://{sandbox}.zarinpal.com/pg/rest/WebGate/PaymentRequest.json"
+# ZP_API_VERIFY = f"https://{sandbox}.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
+# ZP_API_STARTPAY = f"https://{sandbox}.zarinpal.com/pg/StartPay/"
+#
+# amount = 1000  # Rial / Required
+# description = "نهایی کردن خرید"  # Required
+# phone = 'YOUR_PHONE_NUMBER'  # Optional
+# # Important: need to edit for realy server.
+# CallbackURL = 'http://127.0.0.1:8080/order/verify/'
 
 
 @login_required
@@ -110,3 +126,11 @@ def ChangeOrderCount(request):
     }
     data = render_to_string('Eshop_Order/user_backet_for_ajax.html', context)
     return JsonResponse({'status': 200, 'data': data})
+
+
+def request_payment(request):
+    pass
+
+
+def verify_payment(request):
+    pass
