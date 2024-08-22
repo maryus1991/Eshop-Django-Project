@@ -32,8 +32,7 @@ def home_index(request):
                     category.Products.filter(is_active=True, is_delete=False).order_by('-id').all()[:4])
             }
             categories_product.append(item)
-        else:
-            pass
+
 
     context = {
         'slider': Eshop_Slider.objects.filter(is_active=True, is_delete=False).all()[:2],

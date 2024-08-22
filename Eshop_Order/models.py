@@ -10,7 +10,6 @@ class Order(models.Model):
     payment_date = models.DateTimeField(blank=True, null=True, verbose_name='تاریخ پرداخت')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
 
-
     def get_final_price(self):
         total_price = 0
         if self.is_paid:
@@ -39,7 +38,6 @@ class OrderDetail(models.Model):
 
     def __str__(self):
         return str(self.order)
-
 
     class Meta:
         verbose_name = 'جزییات سبد خرید'

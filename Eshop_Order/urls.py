@@ -7,6 +7,6 @@ urlpatterns = [
     path('', user_basket, name='Orders.page'),
     path('remove', remove_item_content),
     path('Change-Count', ChangeOrderCount),
-    path('request', request_payment),
-    path('verify', verify_payment),
+    path('request/', request_payment, name='request_payment'),
+    path('verify/', verify_payment, name='verify.payment'),
 ]

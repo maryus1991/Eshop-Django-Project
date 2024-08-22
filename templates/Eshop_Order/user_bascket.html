@@ -104,7 +104,7 @@
                             <ul>
                                 <li>مجمـوع سبـد خریـد <span>{{ total|tdc }}تومان</span></li>
                                 {#                                                <li>مجمـوع <span>{{ total * 10|tdc }} ريال</span></li>#}
-                                <a class="btn btn-default check_out btn-block" href="checkout.html">پرداخت</a>
+                                <a class="btn btn-default check_out btn-block" href="{% url 'request_payment' %}">پرداخت</a>
                             </ul>
                         </div>
                     </div>
